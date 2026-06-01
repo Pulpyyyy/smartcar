@@ -713,7 +713,7 @@ Please report any issues you find with this integration by opening an issue on t
 [hacs]: https://hacs.xyz/
 [hacs-repo]: https://github.com/hacs/integration
 [hacs-badge]: https://my.home-assistant.io/badges/hacs_repository.svg
-[hacs-open]: https://my.home-assistant.io/redirect/hacs_repository/?owner=tube0013&repository=Smartcar-HA&category=integration
+[hacs-open]: https://my.home-assistant.io/redirect/hacs_repository/?owner=wbyoung&repository=smartcar&category=integration
 [releases]: https://github.com/wbyoung/smartcar/releases
 [config-flow-start]: https://my.home-assistant.io/redirect/config_flow_start/?domain=smartcar
 [smartcar-dashboard]: https://dashboard.smartcar.com/team/applications
