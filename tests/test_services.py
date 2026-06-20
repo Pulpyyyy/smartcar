@@ -22,7 +22,7 @@ from custom_components.smartcar.services import (
 )
 from custom_components.smartcar.types import SmartcarAPIError
 
-from . import MOCK_API_ENDPOINT, setup_added_integration
+from . import MOCK_API_ENDPOINT_LEGACY, setup_added_integration
 
 NO_ERROR = None.__class__
 
@@ -111,7 +111,7 @@ async def test_door_closure(
     assert len(aioclient_mock.mock_calls) == 0
 
     aioclient_mock.post(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle['id']}/security",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle['id']}/security",
         status=api_status,
         json={
             "message": "Some message related to the action unused by our code",

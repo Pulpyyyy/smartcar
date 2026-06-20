@@ -1,6 +1,7 @@
 """Test the Smartcar config flow."""
 
 from contextlib import nullcontext
+from copy import deepcopy
 from http import HTTPStatus
 from typing import Any
 from unittest.mock import AsyncMock, patch
@@ -12,12 +13,16 @@ from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 from homeassistant.helpers import config_entry_oauth2_flow
 import pytest
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant_custom_component.common import (
+    MockConfigEntry,
+    load_json_object_fixture,
+)
 from pytest_homeassistant_custom_component.test_util.aiohttp import AiohttpClientMocker
 from pytest_homeassistant_custom_component.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.smartcar.const import (
+    CONF_APPLICATION_ID,
     CONF_APPLICATION_MANAGEMENT_TOKEN,
     CONF_CLOUDHOOK,
     CONFIGURABLE_SCOPES,
@@ -25,25 +30,33 @@ from custom_components.smartcar.const import (
     DOMAIN,
     OAUTH2_AUTHORIZE,
     OAUTH2_TOKEN,
+    OAUTH2_TOKEN_LEGACY,
     REQUIRED_SCOPES,
 )
+from custom_components.smartcar.types import APIVersion
 
-from . import MOCK_API_ENDPOINT, setup_integration
+from . import MOCK_API_ENDPOINT, MOCK_API_ENDPOINT_LEGACY, setup_integration
 
 REDIRECT_URL = "https://example.com/auth/external/callback"
 
 
+@pytest.mark.parametrize("client_id_version", ["v2", "v3"])
 @pytest.mark.usefixtures("current_request_with_host")
 @pytest.mark.parametrize(
     ("setup", "entry_data", "user_input", "expected_result"),
     [
-        (set(), {}, {"use_webhooks": False}, {}),
+        (set(), {}, {CONF_APPLICATION_ID: "my-app-id", "use_webhooks": False}, {}),
         (
             set(),
             {},
-            {"use_webhooks": True, CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt"},
+            {
+                "use_webhooks": True,
+                CONF_APPLICATION_ID: "my-app-id",
+                CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt",
+            },
             {
                 "data": {
+                    CONF_APPLICATION_ID: "my-app-id",
                     CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt",
                     CONF_CLOUDHOOK: False,
                     CONF_WEBHOOK_ID: "mock_webhook_id",
@@ -53,7 +66,7 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
         (
             set(),
             {},
-            {"use_webhooks": True},
+            {CONF_APPLICATION_ID: "my-app-id", "use_webhooks": True},
             {
                 "final_step": "webhooks",
                 "errors": {
@@ -69,7 +82,11 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
         (
             set(),
             {},
-            {"use_webhooks": False, CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt"},
+            {
+                "use_webhooks": False,
+                CONF_APPLICATION_ID: "my-app-id",
+                CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt",
+            },
             {
                 "final_step": "webhooks",
                 "errors": {
@@ -85,9 +102,14 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
         (
             {"cloud"},
             {},
-            {"use_webhooks": True, CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt"},
+            {
+                "use_webhooks": True,
+                CONF_APPLICATION_ID: "my-app-id",
+                CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt",
+            },
             {
                 "data": {
+                    CONF_APPLICATION_ID: "my-app-id",
                     CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt",
                     CONF_CLOUDHOOK: True,
                     CONF_WEBHOOK_ID: "mock_webhook_id",
@@ -97,7 +119,11 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
         (
             {"cloud", "cloud_not_connected"},
             {},
-            {"use_webhooks": True, CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt"},
+            {
+                "use_webhooks": True,
+                CONF_APPLICATION_ID: "my-app-id",
+                CONF_APPLICATION_MANAGEMENT_TOKEN: "mock_amt",
+            },
             {
                 "form_type": FlowResultType.ABORT,
                 "errors": {},
@@ -122,11 +148,104 @@ async def test_full_flow(
     user_input: dict,
     expected_result: dict,
     mock_smartcar_auth: AsyncMock,
+    client_id_version: APIVersion,
+    snapshot: SnapshotAssertion,
+):
+    await _test_full_flow(
+        hass,
+        hass_client_no_auth,
+        aioclient_mock,
+        setup,
+        entry_data,
+        user_input,
+        expected_result,
+        mock_smartcar_auth,
+        client_id_version,
+        snapshot,
+    )
+
+
+@pytest.mark.parametrize("client_id_version", ["v3"])
+@pytest.mark.usefixtures("current_request_with_host")
+@pytest.mark.parametrize(
+    ("setup", "entry_data", "user_input", "expected_result"),
+    [
+        (
+            set(),
+            {},
+            {"use_webhooks": False},
+            {
+                "final_step": "webhooks",
+                "errors": {
+                    "base": "no_application_id",
+                },
+                "description_placeholders": {
+                    "webhook_url": "webhooks-not-enabled",
+                    "smartcar_url": "https://dashboard.smartcar.com/configuration",
+                    "docs_url": "https://github.com/wbyoung/smartcar/#webhooks",
+                },
+            },
+        ),
+        (
+            {"multi_user_app"},
+            {},
+            {
+                CONF_APPLICATION_ID: "my-app-id",
+                "use_webhooks": False,
+            },
+            {
+                "form_type": FlowResultType.ABORT,
+                "errors": {},
+            },
+        ),
+    ],
+    ids=[
+        "missing_application_id",
+        "invalid_user_configuration",
+    ],
+)
+async def test_full_flow_v3_only(
+    hass: HomeAssistant,
+    hass_client_no_auth: ClientSessionGenerator,
+    aioclient_mock: AiohttpClientMocker,
+    setup: set[str],
+    entry_data: dict,
+    user_input: dict,
+    expected_result: dict,
+    mock_smartcar_auth: AsyncMock,
+    client_id_version: APIVersion,
+    snapshot: SnapshotAssertion,
+):
+    await _test_full_flow(
+        hass,
+        hass_client_no_auth,
+        aioclient_mock,
+        setup,
+        entry_data,
+        user_input,
+        expected_result,
+        mock_smartcar_auth,
+        client_id_version,
+        snapshot,
+    )
+
+
+async def _test_full_flow(
+    hass: HomeAssistant,
+    hass_client_no_auth: ClientSessionGenerator,
+    aioclient_mock: AiohttpClientMocker,
+    setup: set[str],
+    entry_data: dict,
+    user_input: dict,
+    expected_result: dict,
+    mock_smartcar_auth: AsyncMock,
+    client_id_version: APIVersion,
     snapshot: SnapshotAssertion,
 ):
     """Test full flow."""
 
     continue_steps = True
+    expected_result = deepcopy(expected_result)
     final_step = expected_result.pop("final_step", None)
     expected_errors = expected_result.pop("errors", None)
     expected_placeholders = expected_result.pop("description_placeholders", None)
@@ -177,11 +296,16 @@ async def test_full_flow(
                 "redirect_uri": REDIRECT_URL,
             },
         )
+        if client_id_version == "v2":
+            expected_authorize_client_id = "mock-id"
+        if client_id_version == "v3":
+            expected_authorize_client_id = "my-app-id"
 
         assert result["type"] is FlowResultType.EXTERNAL_STEP
         assert result["step_id"] == "auth"
         assert result["url"] == (
-            f"{OAUTH2_AUTHORIZE}?response_type=code&client_id=mock-id"
+            f"{OAUTH2_AUTHORIZE}?response_type=code&"
+            f"client_id={expected_authorize_client_id}"
             f"&redirect_uri={REDIRECT_URL}"
             f"&state={state}"
             "&mode=live"
@@ -195,36 +319,65 @@ async def test_full_flow(
 
         vehicle_id = "36ab27d0-fd9d-4455-823a-ce30af709ffc"
         vin = "5YJSA1CN5DFP00101"
-        server_access_token = {
-            "refresh_token": "server-refresh-token",
-            "access_token": "server-access-token",
-            "type": "Bearer",
-            "expires_in": 60,
-            "scope": " ".join(requested_scopes),
-        }
 
-        aioclient_mock.post(
-            OAUTH2_TOKEN,
-            json=server_access_token,
-        )
-        aioclient_mock.get(
-            f"{MOCK_API_ENDPOINT}/v2.0/vehicles",
-            json={"paging": {"count": 25, "offset": 0}, "vehicles": [vehicle_id]},
-        )
-        aioclient_mock.get(
-            f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle_id}/vin", json={"vin": vin}
-        )
-        aioclient_mock.get(
-            f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle_id}",
-            json={
-                "id": vehicle_id,
-                "make": "TESLA",
-                "model": "Model S",
-                "year": "2014",
-            },
-        )
-
-        expected_aioclient_mock_calls += 4  # oauth token & 3 for vehicles & info
+        if client_id_version == "v2":
+            server_access_token = {
+                "refresh_token": "server-refresh-token",
+                "access_token": "server-access-token",
+                "type": "Bearer",
+                "expires_in": 60,
+                "scope": " ".join(requested_scopes),
+            }
+            aioclient_mock.post(
+                OAUTH2_TOKEN_LEGACY,
+                json=server_access_token,
+            )
+            aioclient_mock.get(
+                f"{MOCK_API_ENDPOINT_LEGACY}/vehicles",
+                json={"paging": {"count": 25, "offset": 0}, "vehicles": [vehicle_id]},
+            )
+            aioclient_mock.get(
+                f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle_id}/vin",
+                json={"vin": vin},
+            )
+            aioclient_mock.get(
+                f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle_id}",
+                json={
+                    "id": vehicle_id,
+                    "make": "TESLA",
+                    "model": "Model S",
+                    "year": "2014",
+                },
+            )
+            expected_aioclient_mock_calls += 4  # oauth token & 3 for vehicles & info
+        if client_id_version == "v3":
+            server_access_token = {
+                "refresh_token": None,
+                "access_token": "server-access-token",
+                "token_type": "bearer",
+                "expires_in": 3600,
+            }
+            aioclient_mock.post(
+                OAUTH2_TOKEN,
+                json=server_access_token,
+            )
+            aioclient_mock.get(
+                f"{MOCK_API_ENDPOINT}/connections",
+                json=load_json_object_fixture(
+                    f"api/list_connections{
+                        '_with_multiple_users' if 'multi_user_app' in setup else ''
+                    }.json",
+                    DOMAIN,
+                ),
+            )
+            aioclient_mock.get(
+                f"{MOCK_API_ENDPOINT}/vehicles/{vehicle_id}/signals/vehicleidentification-vin",
+                json=load_json_object_fixture("api/get_vin_signal.json", DOMAIN),
+            )
+            expected_aioclient_mock_calls += (
+                3  # oauth token & 2 for connections/signals
+                - (1 if "multi_user_app" in setup else 0)
+            )
 
         with (
             patch(
@@ -269,6 +422,7 @@ async def test_full_flow(
         assert "token" in data
         del data["token"]["expires_at"]
         assert dict(config_entry.data) == {
+            "application_id": "my-app-id",
             "auth_implementation": "smartcar",
             "token": dict(
                 server_access_token,
@@ -282,6 +436,13 @@ async def test_full_flow(
                     "year": "2014",
                 }
             },
+            **(
+                {
+                    "user_id": "218eda3b-0656-49a8-8f3d-360cdad07334",
+                }
+                if client_id_version == "v3"
+                else {}
+            ),
             **expected_data,
         }
 
@@ -371,19 +532,19 @@ async def test_duplicate_vins_disallowed(
     }
 
     aioclient_mock.post(
-        OAUTH2_TOKEN,
+        OAUTH2_TOKEN_LEGACY,
         json=server_access_token,
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles",
         json={"paging": {"count": 25, "offset": 0}, "vehicles": [vehicle["id"]]},
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle['id']}/vin",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle['id']}/vin",
         json={"vin": vehicle["vin"]},
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle['id']}",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle['id']}",
         json={"id": vehicle["id"], "make": "TESLA", "model": "Model S", "year": "2014"},
     )
 
@@ -493,7 +654,7 @@ async def test_token_error(
     assert resp.headers["content-type"] == "text/html; charset=utf-8"
 
     aioclient_mock.post(
-        OAUTH2_TOKEN,
+        OAUTH2_TOKEN_LEGACY,
         status=status_code,
     )
 
@@ -614,11 +775,11 @@ async def test_api_error(
     override_attributes = target_endpoint == "/vehicles/{id}"
 
     aioclient_mock.post(
-        OAUTH2_TOKEN,
+        OAUTH2_TOKEN_LEGACY,
         json=server_access_token,
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles",
         status=http_status if override_vehicles else 200,
         json=(
             json
@@ -627,12 +788,12 @@ async def test_api_error(
         ),
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle_id}/vin",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle_id}/vin",
         status=http_status if override_vin else 200,
         json=json if override_vin else {"vin": vin},
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle_id}",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle_id}",
         status=http_status if override_attributes else 200,
         json=(
             json
@@ -767,18 +928,18 @@ async def test_reauth(
     }
 
     aioclient_mock.post(
-        OAUTH2_TOKEN,
+        OAUTH2_TOKEN_LEGACY,
         json=server_access_token,
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles",
         json={"paging": {"count": 25, "offset": 0}, "vehicles": [new_vehicle_id]},
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{new_vehicle_id}/vin", json={"vin": vin}
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{new_vehicle_id}/vin", json={"vin": vin}
     )
     aioclient_mock.get(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{new_vehicle_id}",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{new_vehicle_id}",
         json={
             "id": new_vehicle_id,
             "make": "TESLA",

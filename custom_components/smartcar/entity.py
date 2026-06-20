@@ -160,12 +160,11 @@ class SmartcarEntity[ValueT, RawValueT](
         payload: dict[str, Any],
         *,
         method: str = "post",
-        version: str = "2.0",
         **kwargs,  # noqa: ARG002, ANN003
     ) -> bool:
         try:
             return await async_send_command(
-                self.coordinator, subpath, payload, method=method, version=version
+                self.coordinator, subpath, payload, method=method
             )
         except SmartcarAPIError:
             return False
@@ -270,17 +269,15 @@ async def async_send_command(
     payload: dict[str, Any],
     *,
     method: str = "post",
-    version: str = "2.0",
 ) -> bool:
     _LOGGER.info("Sending %s request for %s", subpath, coordinator.vin)
     success = False
 
     try:
         resp = await util.async_request_with_retry(
-            lambda: coordinator.auth.request(
+            lambda: coordinator.auth.request_v2(
                 method,
                 f"vehicles/{coordinator.vehicle_id}{subpath}",
-                version=version,
                 json=payload,
             ),
             logger=_LOGGER,

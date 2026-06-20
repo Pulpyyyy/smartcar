@@ -11,7 +11,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from pytest_homeassistant_custom_component.test_util.aiohttp import AiohttpClientMocker
 from syrupy.assertion import SnapshotAssertion
 
-from . import MOCK_API_ENDPOINT, setup_integration
+from . import MOCK_API_ENDPOINT_LEGACY, setup_integration
 
 NO_ERROR = None.__class__
 
@@ -55,7 +55,7 @@ async def test_lock(
     assert len(aioclient_mock.mock_calls) == 1
 
     aioclient_mock.post(
-        f"{MOCK_API_ENDPOINT}/v2.0/vehicles/{vehicle['id']}/security",
+        f"{MOCK_API_ENDPOINT_LEGACY}/vehicles/{vehicle['id']}/security",
         status=api_status,
         json={
             "message": "Some message related to the action unused by our code",

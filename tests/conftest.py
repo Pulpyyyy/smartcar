@@ -19,7 +19,10 @@ from homeassistant.components.application_credentials import (
 from homeassistant.const import CONF_WEBHOOK_ID, CONTENT_TYPE_JSON
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr, entity_registry as er
-from homeassistant.helpers.config_entry_oauth2_flow import OAuth2Session
+from homeassistant.helpers.config_entry_oauth2_flow import (
+    OAuth2Session,
+    LocalOAuth2Implementation,
+)
 from homeassistant.setup import async_setup_component
 import pytest
 from pytest_homeassistant_custom_component.common import (
@@ -35,6 +38,7 @@ from syrupy.assertion import SnapshotAssertion
 from .syrupy import SmartcarSnapshotExtension
 from . import MOCK_UTC_NOW
 from custom_components.smartcar import util
+from custom_components.smartcar.types import APIVersion
 
 from custom_components.smartcar.auth import AbstractAuth
 from custom_components.smartcar.const import (
@@ -45,7 +49,7 @@ from custom_components.smartcar.const import (
 )
 
 from . import (
-    MOCK_API_ENDPOINT,
+    MOCK_API_ENDPOINTS,
     aioclient_mock_append_vehicle_request,
     setup_added_integration,
     setup_integration,
@@ -162,10 +166,19 @@ def mock_smartcar_auth(
         def __init__(
             self,
             websession: ClientSession,
-            oauth_session: OAuth2Session,
-            host: str,
+            implementation: LocalOAuth2Implementation = None,
+            oauth_session: OAuth2Session = None,
+            *,
+            version: APIVersion,
+            user_id: str | None = None,
         ) -> None:
-            super().__init__(websession, host)
+            super().__init__(
+                websession,
+                MOCK_API_ENDPOINTS,
+                version=version,
+                user_id=user_id,
+            )
+            self._oauth_impl = implementation
             self._oauth_session = oauth_session
 
         async def async_get_access_token(self) -> str:
@@ -179,21 +192,21 @@ def mock_smartcar_auth(
         ) as mock_auth,
         patch(
             "custom_components.smartcar.AsyncConfigEntryAuth",
-            new=lambda session, oauth, _host: MockAuth(
-                session, oauth, MOCK_API_ENDPOINT
+            new=lambda session, impl, oauth, _endpoint, **kwargs: MockAuth(
+                session,
+                impl,
+                oauth,
+                version=util.api_version_for_client_id(impl.client_id),
+                **kwargs,
             ),
         ),
         patch(
             "custom_components.smartcar.AccessTokenAuthImpl",
-            new=lambda session, _token, _host: MockAuth(
-                session, None, MOCK_API_ENDPOINT
-            ),
+            new=lambda session, *_args, **kwargs: MockAuth(session, **kwargs),
         ),
         patch(
             "custom_components.smartcar.config_flow.AccessTokenAuthImpl",
-            new=lambda session, _token, _host: MockAuth(
-                session, None, MOCK_API_ENDPOINT
-            ),
+            new=lambda session, *_args, **kwargs: MockAuth(session, **kwargs),
         ),
     ):
         yield mock_auth.return_value
@@ -201,10 +214,18 @@ def mock_smartcar_auth(
 
 @pytest.fixture(autouse=True)
 async def setup_credentials(
-    request: pytest.FixtureRequest, hass: HomeAssistant
+    request: pytest.FixtureRequest,
+    hass: HomeAssistant,
+    client_id_version: APIVersion,
 ) -> None:
     """Fixture to setup credentials."""
     assert await async_setup_component(hass, "application_credentials", {})
+
+    client_id = None
+    if client_id_version == "v2":
+        client_id = "mock-id"
+    if client_id_version == "v3":
+        client_id = "client_mock-id"
 
     if "no_credentials" in request.keywords:
         pass
@@ -212,7 +233,7 @@ async def setup_credentials(
         await async_import_client_credential(
             hass,
             DOMAIN,
-            ClientCredential("mock-id", "mock-secret"),
+            ClientCredential(client_id, "mock-secret"),
             DOMAIN,
         )
 
@@ -221,6 +242,12 @@ async def setup_credentials(
 def mock_api_response_type() -> str:
     """Fixture to define the API response fixture to use."""
     return "ok"
+
+
+@pytest.fixture(name="client_id_version")
+def mock_client_id_version() -> APIVersion:
+    """Fixture to define the client id version to use."""
+    return "v2"
 
 
 @pytest.fixture(name="enabled_scopes")

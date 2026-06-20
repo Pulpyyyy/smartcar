@@ -651,7 +651,7 @@ class SmartcarVehicleCoordinator(DataUpdateCoordinator):
 
         try:
             response = await util.async_request_with_retry(
-                lambda: self.auth.request("post", request_path, json=request_body),
+                lambda: self.auth.request_v2("post", request_path, json=request_body),
                 logger=_LOGGER,
                 context=f"Coordinator {self.name}",
             )

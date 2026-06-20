@@ -25,7 +25,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.smartcar.const import (
     DEFAULT_ENABLED_ENTITY_DESCRIPTION_KEYS,
-    OAUTH2_TOKEN,
+    OAUTH2_TOKEN_LEGACY,
     REQUIRED_SCOPES,
     EntityDescriptionKey,
 )
@@ -473,7 +473,7 @@ async def test_expired_token_update_with_polling_disabled(
     )
 
     aioclient_mock.post(
-        OAUTH2_TOKEN,
+        OAUTH2_TOKEN_LEGACY,
         status=400,
         json={
             "error": "invalid_grant",
@@ -515,7 +515,7 @@ async def test_expired_token_invalid_update_with_polling_disabled(
     )
 
     aioclient_mock.post(
-        OAUTH2_TOKEN,
+        OAUTH2_TOKEN_LEGACY,
         status=500,
         json={
             "error": "server_error",

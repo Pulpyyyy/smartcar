@@ -4,9 +4,12 @@ from functools import reduce
 import hashlib
 import hmac
 import logging
+import re
 from typing import Any, cast, overload
 
 from aiohttp import ClientResponse
+
+from .types import APIVersion
 
 _RETRYABLE_STATUSES = frozenset({429, 500})
 
@@ -65,6 +68,12 @@ async def async_request_with_retry(
 
     # unreachable — the loop always returns — but satisfies the type checker
     raise AssertionError  # pragma: no cover
+
+
+def api_version_for_client_id(client_id: str) -> APIVersion:
+    if re.match(r"^client_", client_id):
+        return "v3"
+    return "v2"
 
 
 def unique_id_from_entry_data(data: dict) -> str:
