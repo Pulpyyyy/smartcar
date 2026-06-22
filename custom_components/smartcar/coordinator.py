@@ -22,9 +22,10 @@ from homeassistant.helpers.update_coordinator import (
 )
 from homeassistant.util import dt as dt_util
 
+from . import util
 from .auth import AbstractAuth
 from .const import CONF_APPLICATION_MANAGEMENT_TOKEN, DOMAIN, EntityDescriptionKey
-from .util import async_request_with_retry, key_path_get, key_path_update
+from .util import key_path_get, key_path_update
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -649,7 +650,7 @@ class SmartcarVehicleCoordinator(DataUpdateCoordinator):
         )
 
         try:
-            response = await async_request_with_retry(
+            response = await util.async_request_with_retry(
                 lambda: self.auth.request("post", request_path, json=request_body),
                 logger=_LOGGER,
                 context=f"Coordinator {self.name}",

@@ -16,11 +16,11 @@ from homeassistant.helpers.restore_state import (
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from homeassistant.util import dt as dt_util
 
-from . import const as smartcar_const
+from . import const as smartcar_const, util
 from .const import DOMAIN
 from .coordinator import DATAPOINT_ENTITY_KEY_MAP, SmartcarVehicleCoordinator
 from .types import SmartcarAPIError
-from .util import async_request_with_retry, key_path_get
+from .util import key_path_get
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -276,7 +276,7 @@ async def async_send_command(
     success = False
 
     try:
-        resp = await async_request_with_retry(
+        resp = await util.async_request_with_retry(
             lambda: coordinator.auth.request(
                 method,
                 f"vehicles/{coordinator.vehicle_id}{subpath}",

@@ -34,6 +34,7 @@ from pytest_homeassistant_custom_component.typing import ClientSessionGenerator
 from syrupy.assertion import SnapshotAssertion
 from .syrupy import SmartcarSnapshotExtension
 from . import MOCK_UTC_NOW
+from custom_components.smartcar import util
 
 from custom_components.smartcar.auth import AbstractAuth
 from custom_components.smartcar.const import (
@@ -89,6 +90,29 @@ def pytest_configure(config) -> None:
 def auto_enable_custom_integrations(enable_custom_integrations):
     """Enable custom integrations."""
     return
+
+
+@pytest.fixture(autouse=True)
+def auto_shorten_retry_delays() -> Generator[Mock]:
+    """Shorten the default retry delay values."""
+
+    original = util.async_request_with_retry
+
+    async def replacement(
+        request_fn,
+        **kwargs,  # noqa: ANN003
+    ):
+        if "base_delay" not in kwargs:
+            kwargs["base_delay"] = 0.01
+        if "max_delay" not in kwargs:
+            kwargs["max_delay"] = 1
+        return await original(request_fn, **kwargs)
+
+    with patch(
+        "custom_components.smartcar.util.async_request_with_retry"
+    ) as mock_request:
+        mock_request.side_effect = replacement
+        yield mock_request
 
 
 @pytest.fixture
