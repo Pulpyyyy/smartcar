@@ -143,6 +143,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             translation_key="legacy_client_id",
             translation_placeholders={
                 "title": entry.title,
+                "docs_url": "https://github.com/wbyoung/smartcar#upgrading-from-legacy-v2-api-to-v3",
             },
         )
 

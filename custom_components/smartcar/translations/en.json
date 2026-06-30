@@ -85,7 +85,7 @@
       "fix_flow": {
         "step": {
           "confirm": {
-            "description": "{title} is using deprecated Smartcar v2 API. To migrate to v3.0:\n - Remove all Smartcar integrations that use v2 (this is required for the next step).\n- Remove all _Application Credentials_ that use a v2 `client_id`. To be safe, you can remove all Smartcar credentials from the _Application Credentials_.\n- Re-setup each smart car integration, ensuring that you use the new v3 _API credentials_ and _Application ID_ rather than _Legacy Credentials_.\n\nRead the documentation for more information.",
+            "description": "{title} is using deprecated Smartcar v2 API. To migrate to v3.0:\n - Remove all Smartcar integrations that use v2. _Note: this is required for the next step._\n- Remove all _Application Credentials_ that use a v2 `client_id`. To be safe, you can remove all Smartcar credentials from the _Application Credentials_.\n- Re-setup each smart car integration, ensuring that you use the new v3 _API credentials_ and _Application ID_ rather than _Legacy Credentials_.\n\nRead the [documentation]({docs_url}) for more information.",
             "title": "Smartcar v2 API deprecated"
           }
         }
