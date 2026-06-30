@@ -64,6 +64,7 @@ async def test_standard_setup(
         assert hass.states.get(entity.entity_id) == snapshot(name=entity.entity_id)
 
 
+@pytest.mark.parametrize("client_id_version", ["v2", "v3"])
 @pytest.mark.usefixtures("enable_all_entities")
 async def test_standard_setup_with_all_entities(
     hass: HomeAssistant,

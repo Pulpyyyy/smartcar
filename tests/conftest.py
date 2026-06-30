@@ -224,7 +224,8 @@ async def setup_credentials(
     client_id = None
     if client_id_version == "v2":
         client_id = "mock-id"
-    if client_id_version == "v3":
+    else:
+        assert client_id_version == "v3"
         client_id = "client_mock-id"
 
     if "no_credentials" in request.keywords:
@@ -275,6 +276,7 @@ def vehicle(
     api_response_type: str,
     vehicle_fixture: str,
     vehicle_attributes: dict,
+    client_id_version: APIVersion,
 ) -> dict:
     """Return a specific vehicle."""
 
@@ -283,6 +285,7 @@ def vehicle(
         api_response_type,
         vehicle_fixture,
         vehicle_attributes,
+        client_id_version,
     )
 
     return dict(vehicle_attributes, _api=http_calls)

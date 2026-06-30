@@ -298,7 +298,8 @@ async def _test_full_flow(
         )
         if client_id_version == "v2":
             expected_authorize_client_id = "mock-id"
-        if client_id_version == "v3":
+        else:
+            assert client_id_version == "v3"
             expected_authorize_client_id = "my-app-id"
 
         assert result["type"] is FlowResultType.EXTERNAL_STEP
@@ -350,7 +351,8 @@ async def _test_full_flow(
                 },
             )
             expected_aioclient_mock_calls += 4  # oauth token & 3 for vehicles & info
-        if client_id_version == "v3":
+        else:
+            assert client_id_version == "v3"
             server_access_token = {
                 "refresh_token": None,
                 "access_token": "server-access-token",

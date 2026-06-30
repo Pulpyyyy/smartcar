@@ -319,7 +319,8 @@ async def _store_all_vehicles(
             vehicle_list_resp.raise_for_status()
             vehicle_list_data = await vehicle_list_resp.json()
             vehicle_ids = vehicle_list_data.get("vehicles", [])
-        if auth.version == "v3":
+        else:
+            assert auth.version == "v3"
             connections_list_resp = await auth.request_v3("get", "connections")
             connections_list_resp.raise_for_status()
             connections_list_data = await connections_list_resp.json()
@@ -385,7 +386,8 @@ async def _store_vehicle_details(
             vin_resp.raise_for_status()
             vin_data = await vin_resp.json()
             vin = vin_data.get("vin")
-        if auth.version == "v3":
+        else:
+            assert auth.version == "v3"
             signals_resp = await auth.request_v3(
                 "get",
                 f"vehicles/{vehicle_id}/signals/vehicleidentification-vin",

@@ -42,9 +42,14 @@ def aioclient_mock_append_vehicle_request(
     api_response_type: str,
     vehicle_fixture: str,
     vehicle_attributes: dict,
+    client_id_version: APIVersion,
 ):
     vehicle_id = vehicle_attributes["id"]
-    fixture_name = f"api/{vehicle_fixture}.{api_response_type}.json"
+    fixture_name = (
+        "api/"
+        f"{vehicle_fixture}.{api_response_type}"
+        f"{'.v3' if client_id_version == 'v3' else ''}.json"
+    )
     http_calls = load_json_array_fixture(fixture_name, DOMAIN)
 
     for http_call in http_calls:
@@ -77,7 +82,7 @@ def aioclient_mock_append_vehicle_request(
                 raise side_effect_class()
 
         getattr(aioclient_mock, method)(
-            f"{MOCK_API_ENDPOINT_LEGACY}{path}",
+            f"{MOCK_API_ENDPOINTS[client_id_version]}{path}",
             params=params,
             status=status,
             side_effect=side_effect,
