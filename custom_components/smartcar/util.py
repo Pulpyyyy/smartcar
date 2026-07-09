@@ -81,7 +81,11 @@ def unique_id_from_entry_data(data: dict) -> str:
 
 
 def vins_from_entry_data(data: dict) -> str:
-    return " ".join(sorted([vehicle["vin"] for vehicle in data["vehicles"].values()]))
+    return " ".join(
+        sorted(
+            vin for vehicle in data["vehicles"].values() if (vin := vehicle.get("vin"))
+        )
+    )
 
 
 def hmac_sha256_hexdigest(key: str, msg: str) -> str:

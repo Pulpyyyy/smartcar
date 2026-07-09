@@ -90,6 +90,10 @@
           }
         }
       }
+    },
+    "vin_pending": {
+      "title": "Waiting for vehicle data from Smartcar",
+      "description": "{title} has one or more vehicles for which Smartcar has not yet provided any signal data, so their devices and entities have not been created yet. Smartcar only ingests signals for vehicles that are subscribed to an integration: make sure you have created a webhook in the Smartcar dashboard and subscribed your vehicle(s) to it, as described in the [documentation]({docs_url}). This integration checks for new data every minute and will finish the setup automatically once data becomes available."
     }
   },
   "options": {

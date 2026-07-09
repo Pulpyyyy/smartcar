@@ -1,4 +1,4 @@
-# serializer version: 1
+﻿# serializer version: 1
 # name: test_full_flow[cloud_not_connected-v2]
   list([
     tuple(
@@ -61,7 +61,7 @@
     ),
     tuple(
       'get',
-      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals/vehicleidentification-vin'),
+      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals'),
       None,
       dict({
         'authorization': 'Bearer mock-token',
@@ -132,7 +132,7 @@
     ),
     tuple(
       'get',
-      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals/vehicleidentification-vin'),
+      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals'),
       None,
       dict({
         'authorization': 'Bearer mock-token',
@@ -203,7 +203,7 @@
     ),
     tuple(
       'get',
-      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals/vehicleidentification-vin'),
+      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals'),
       None,
       dict({
         'authorization': 'Bearer mock-token',
@@ -274,7 +274,7 @@
     ),
     tuple(
       'get',
-      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals/vehicleidentification-vin'),
+      URL('http://test.local/v3/vehicles/36ab27d0-fd9d-4455-823a-ce30af709ffc/signals'),
       None,
       dict({
         'authorization': 'Bearer mock-token',

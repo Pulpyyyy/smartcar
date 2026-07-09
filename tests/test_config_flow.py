@@ -373,8 +373,8 @@ async def _test_full_flow(
                 ),
             )
             aioclient_mock.get(
-                f"{MOCK_API_ENDPOINT}/vehicles/{vehicle_id}/signals/vehicleidentification-vin",
-                json=load_json_object_fixture("api/get_vin_signal.json", DOMAIN),
+                f"{MOCK_API_ENDPOINT}/vehicles/{vehicle_id}/signals",
+                json=load_json_object_fixture("api/list_signals.json", DOMAIN),
             )
             expected_aioclient_mock_calls += (
                 3  # oauth token & 2 for connections/signals

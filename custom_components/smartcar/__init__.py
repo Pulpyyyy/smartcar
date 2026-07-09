@@ -16,7 +16,11 @@ from homeassistant.helpers.config_entry_oauth2_flow import (
     OAuth2Session,
     async_get_config_entry_implementation,
 )
-from homeassistant.helpers.issue_registry import IssueSeverity, async_create_issue
+from homeassistant.helpers.issue_registry import (
+    IssueSeverity,
+    async_create_issue,
+    async_delete_issue,
+)
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -84,12 +88,21 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     )
     device_registry = dr.async_get(hass)
     other_vins = vehicle_vins_in_use(hass, entry)
+    pending_vin_vehicle_ids: list[str] = []
 
     for vehicle_id, details in entry.data.get("vehicles", {}).items():
         vin = details["vin"]
         make = details.get("make")
         model = details.get("model")
         year = details.get("year")
+
+        if not vin:
+            _LOGGER.info(
+                "VIN not yet available for vehicle %s; skipping device setup",
+                vehicle_id,
+            )
+            pending_vin_vehicle_ids.append(vehicle_id)
+            continue
 
         if vin in other_vins:
             msg = f"Cannot setup multiple config entries with VIN {vin}"
@@ -146,6 +159,27 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 "docs_url": "https://github.com/wbyoung/smartcar#upgrading-from-legacy-v2-api-to-v3",
             },
         )
+
+    if pending_vin_vehicle_ids:
+        async_create_issue(
+            hass,
+            DOMAIN,
+            f"vin_pending_{entry.entry_id}",
+            is_fixable=False,
+            severity=IssueSeverity.WARNING,
+            translation_key="vin_pending",
+            translation_placeholders={
+                "title": entry.title,
+                "docs_url": "https://github.com/wbyoung/smartcar#webhooks",
+            },
+        )
+        entry.async_create_background_task(
+            hass,
+            _async_poll_pending_vins(hass, entry, auth, pending_vin_vehicle_ids),
+            name=f"{DOMAIN}_pending_vin_poll",
+        )
+    else:
+        async_delete_issue(hass, DOMAIN, f"vin_pending_{entry.entry_id}")
 
     await asyncio.gather(
         *[async_do_first_refresh(coordinator) for coordinator in coordinators.values()]
@@ -289,10 +323,11 @@ def vehicle_vins_in_use(
     hass: HomeAssistant, config_entry: ConfigEntry = None
 ) -> set[str]:
     return {
-        vehicle["vin"]
+        vin
         for other_entry in hass.config_entries.async_entries(DOMAIN)
         for vehicle in other_entry.data.get("vehicles", {}).values()
-        if not config_entry or other_entry.unique_id != config_entry.unique_id
+        if (vin := vehicle.get("vin"))
+        and (not config_entry or other_entry.unique_id != config_entry.unique_id)
     }
 
 
@@ -382,6 +417,114 @@ async def _store_all_vehicles(
     )
 
 
+_VIN_SIGNAL_CODE = "vehicleidentification-vin"
+_VIN_FETCH_MAX_RETRIES = 3
+_VIN_FETCH_BASE_DELAY = 2.0
+_VIN_POLL_INTERVAL = 60.0
+
+
+async def _async_poll_pending_vins(
+    hass: HomeAssistant,
+    entry: ConfigEntry,
+    auth: AbstractAuth,
+    vehicle_ids: list[str],
+) -> None:
+    """Poll for VINs of vehicles whose signals are not yet ingested.
+
+    Updates the config entry as soon as a VIN becomes available; the
+    entry update listener then reloads the entry so the device and
+    entities get created (and polling restarts for any remaining
+    vehicles).
+    """
+    while True:
+        await asyncio.sleep(_VIN_POLL_INTERVAL)
+
+        for vehicle_id in vehicle_ids:
+            try:
+                vin, vehicle_info = await _fetch_vin_and_info_v3(
+                    auth, vehicle_id, max_retries=0
+                )
+            except ClientResponseError as err:
+                _LOGGER.debug(
+                    "Error %s polling VIN for vehicle %s", err.status, vehicle_id
+                )
+                continue
+
+            if not vin:
+                continue
+
+            _LOGGER.info("VIN now available for vehicle %s", vehicle_id)
+            vehicles = {**entry.data["vehicles"]}
+            vehicles[vehicle_id] = {
+                **vehicles[vehicle_id],
+                "vin": vin,
+                "make": vehicle_info.get("make"),
+                "model": vehicle_info.get("model"),
+                "year": str(vehicle_info.get("year")),
+            }
+            hass.config_entries.async_update_entry(
+                entry, data={**entry.data, "vehicles": vehicles}
+            )
+            return  # the entry update listener triggers a reload
+
+
+async def _fetch_vin_and_info_v3(
+    auth: AbstractAuth,
+    vehicle_id: str,
+    *,
+    max_retries: int = _VIN_FETCH_MAX_RETRIES,
+) -> tuple[str | None, dict]:
+    """Fetch the VIN and vehicle attributes from the v3 signals list.
+
+    Signal values are ingested asynchronously after a connection is
+    created, so the VIN may not be available immediately; retry with
+    backoff before giving up.
+
+    Returns:
+        A tuple of the VIN (or None) and the vehicle attributes.
+
+    Raises:
+        AssertionError: Should never be raised; satisfies the type checker.
+    """
+    for attempt in range(max_retries + 1):
+        signals_resp = await auth.request_v3("get", f"vehicles/{vehicle_id}/signals")
+        if not signals_resp.ok:
+            _LOGGER.error(
+                "Error %s fetching signals for vehicle %s: %s",
+                signals_resp.status,
+                vehicle_id,
+                await signals_resp.text(),
+            )
+        signals_resp.raise_for_status()
+        signals_data = await signals_resp.json()
+        vehicle_info = (
+            signals_data.get("included", {}).get("vehicle", {}).get("attributes", {})
+        )
+
+        vin = next(
+            (
+                signal.get("attributes", {}).get("body", {}).get("value")
+                for signal in signals_data.get("data", [])
+                if signal.get("attributes", {}).get("code") == _VIN_SIGNAL_CODE
+            ),
+            None,
+        )
+
+        if vin or attempt == max_retries:
+            return vin, vehicle_info
+
+        delay = _VIN_FETCH_BASE_DELAY * 2**attempt
+        _LOGGER.debug(
+            "VIN signal not yet ingested for vehicle %s; retrying in %.1fs",
+            vehicle_id,
+            delay,
+        )
+        await asyncio.sleep(delay)
+
+    # unreachable — the loop always returns — but satisfies the type checker
+    raise AssertionError  # pragma: no cover
+
+
 async def _store_vehicle_details(
     data: dict,
     auth: AbstractAuth,
@@ -389,8 +532,12 @@ async def _store_vehicle_details(
 ) -> None:
     """Fetch and store data for a single vehicle.
 
+    For v3, the VIN may not be ingested yet (e.g. before the vehicle is
+    subscribed to a webhook); the vehicle is stored without a VIN and
+    the setup of the config entry will fetch it in the background.
+
     Raises:
-        MissingVINError: If the VIN is not available.
+        MissingVINError: If the VIN is not available (v2 only).
         InvalidAuthError: If the request cannot be authorized.
         ClientResponseError: If there is a request error.
     """
@@ -404,28 +551,19 @@ async def _store_vehicle_details(
             vin = vin_data.get("vin")
         else:
             assert auth.version == "v3"
-            signals_resp = await auth.request_v3(
-                "get",
-                f"vehicles/{vehicle_id}/signals/vehicleidentification-vin",
-            )
-            signals_resp.raise_for_status()
-            signals_data = await signals_resp.json()
-            vehicle_info = (
-                signals_data.get("included", {})
-                .get("vehicle", {})
-                .get("attributes", {})
-            )
-
-            vin = (
-                signals_data.get("data", {})
-                .get("attributes", {})
-                .get("body", {})
-                .get("value", None)
-            )
+            vin, vehicle_info = await _fetch_vin_and_info_v3(auth, vehicle_id)
 
         if not vin:
-            msg = f"No VIN for vehicle {vehicle_id}"
-            raise MissingVINError(msg)
+            if auth.version == "v2":
+                msg = f"No VIN for vehicle {vehicle_id}"
+                raise MissingVINError(msg)
+            vin = None
+            _LOGGER.warning(
+                "No VIN ingested yet for vehicle %s; it will be fetched in "
+                "the background once available (make sure the vehicle is "
+                "subscribed to a webhook in the Smartcar dashboard)",
+                vehicle_id,
+            )
 
         data["vehicles"][vehicle_id] = {
             "vin": vin,
