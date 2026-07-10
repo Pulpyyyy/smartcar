@@ -47,6 +47,12 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
     [
         (set(), {}, {CONF_APPLICATION_ID: "my-app-id", "use_webhooks": False}, {}),
         (
+            {"missing_vin"},
+            {},
+            {CONF_APPLICATION_ID: "my-app-id", "use_webhooks": False},
+            {},
+        ),
+        (
             set(),
             {},
             {
@@ -132,6 +138,7 @@ REDIRECT_URL = "https://example.com/auth/external/callback"
     ],
     ids=[
         "no_webhooks",
+        "no_webhooks_missing_vin",
         "webhooks",
         "webhooks_missing_token",
         "webhooks_extraneous_token",
@@ -319,7 +326,7 @@ async def _test_full_flow(
         assert resp.headers["content-type"] == "text/html; charset=utf-8"
 
         vehicle_id = "36ab27d0-fd9d-4455-823a-ce30af709ffc"
-        vin = "5YJSA1CN5DFP00101"
+        vin = "5YJSA1CN5DFP00101" if "missing_vin" not in setup else None
 
         if client_id_version == "v2":
             server_access_token = {
@@ -374,7 +381,10 @@ async def _test_full_flow(
             )
             aioclient_mock.get(
                 f"{MOCK_API_ENDPOINT}/vehicles/{vehicle_id}/signals/vehicleidentification-vin",
-                json=load_json_object_fixture("api/get_vin_signal.json", DOMAIN),
+                json=load_json_object_fixture(
+                    f"api/get_vin_signal{'_missing' if 'missing_vin' in setup else ''}.json",
+                    DOMAIN,
+                ),
             )
             expected_aioclient_mock_calls += (
                 3  # oauth token & 2 for connections/signals
@@ -421,6 +431,14 @@ async def _test_full_flow(
         assert config_entry.unique_id == vehicle_id
 
         data = dict(config_entry.data)
+        expected_attrs = {
+            "vin": vin,
+            "make": "TESLA",
+            "model": "Model S",
+            "year": "2014",
+        }
+        if "missing_vin" in setup:
+            expected_attrs.pop("vin")
         assert "token" in data
         del data["token"]["expires_at"]
         assert dict(config_entry.data) == {
@@ -430,14 +448,7 @@ async def _test_full_flow(
                 server_access_token,
                 scopes=requested_scopes,
             ),
-            "vehicles": {
-                vehicle_id: {
-                    "vin": vin,
-                    "make": "TESLA",
-                    "model": "Model S",
-                    "year": "2014",
-                }
-            },
+            "vehicles": {vehicle_id: expected_attrs},
             **(
                 {
                     "user_id": "218eda3b-0656-49a8-8f3d-360cdad07334",
@@ -695,12 +706,6 @@ async def test_token_error(
             HTTPStatus.OK,
             {"vehicles": []},
             "no_vehicles",
-        ),
-        (
-            "/vehicles/{id}/vin",
-            HTTPStatus.OK,
-            {"vin": ""},
-            "unknown",
         ),
     ],
 )

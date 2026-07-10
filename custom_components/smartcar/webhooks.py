@@ -149,7 +149,9 @@ async def handle_webhook(
         ),
         None,
     )
-    coordinator = coordinators.get(vehicle_vin) if vehicle_vin else None
+    coordinator = coordinators.get(vehicle_id) or (
+        coordinators.get(vehicle_vin) if vehicle_vin else None
+    )
 
     if not coordinator:
         _LOGGER.debug(

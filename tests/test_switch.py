@@ -204,7 +204,7 @@ async def test_restore_state_from_v2(
 
     await setup_added_integration(hass, mock_config_entry)
 
-    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["vin"]]
+    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["id"]]
 
     coordinator_data = {
         key: data

@@ -45,7 +45,6 @@ from .const import (
 from .errors import (
     EmptyVehicleListError,
     InvalidAuthError,
-    MissingVINError,
     UnsupportedUserConfigurationError,
 )
 from .util import (
@@ -323,9 +322,6 @@ class SmartcarOAuth2FlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):  # ty
                 "Unsupported user configuration detected; expected single user"
             )
             return self.async_abort(reason="not_single_user_app")
-        except MissingVINError:
-            _LOGGER.exception("Missing vehicle VIN")
-            return self.async_abort(reason="unknown")
         except InvalidAuthError:
             _LOGGER.exception("Failed to authenticate")
             return self.async_abort(reason="invalid_access_token")
@@ -342,7 +338,7 @@ class SmartcarOAuth2FlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):  # ty
         duplicate_vins = [
             details["vin"]
             for details in data.get("vehicles", {}).values()
-            if details["vin"] in other_vins
+            if details.get("vin") in other_vins
         ]
 
         if duplicate_vins:

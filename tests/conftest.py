@@ -409,6 +409,7 @@ def webhook_scenario(
     platform: str,
     vehicle_fixture: str,
     vehicle_attributes: dict,
+    client_id_version: APIVersion,
     webhook_body: str,
     webhook_headers: dict[str, Any],
     expected: dict[str, Any],
@@ -468,7 +469,11 @@ def webhook_scenario(
         assert aioclient_mock.call_count == expected_calls
         assert mock_start_reauth.call_count == expected_reauth_calls
 
-        device_id = vehicle_attributes["vin"]
+        device_id = (
+            vehicle_attributes["vin"]
+            if client_id_version == "v2"
+            else vehicle_attributes["id"]
+        )
         device = device_registry.async_get_device({(DOMAIN, device_id)})
         entities = entity_registry.entities.get_entries_for_device_id(device.id)
 

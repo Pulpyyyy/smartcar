@@ -26,6 +26,7 @@ from homeassistant.util import dt as dt_util
 from . import util
 from .auth import AbstractAuth
 from .const import CONF_APPLICATION_MANAGEMENT_TOKEN, DOMAIN, EntityDescriptionKey
+from .types import APIVersion
 from .util import key_path_get, key_path_update
 
 _LOGGER = logging.getLogger(__name__)
@@ -509,23 +510,26 @@ class SmartcarVehicleCoordinator(DataUpdateCoordinator):
     def __init__(
         self,
         hass: HomeAssistant,
+        *,
         auth: AbstractAuth,
         vehicle_id: str,
         vin: str,
         entry: ConfigEntry,
+        version: APIVersion,
     ) -> None:
         """Initialize coordinator."""
         self.auth = auth
         self.vehicle_id = vehicle_id
         self.vin = vin
         self.entry = entry
+        self.version = version
         self.batch_requests: set[EntityDescriptionKey] = set()
         self.data: dict[str, Any] = {}
 
         super().__init__(
             hass,
             _LOGGER,
-            name=f"{DOMAIN}_{vin}",
+            name=f"{DOMAIN}_{vehicle_id}",
             update_interval=UPDATE_INTERVAL
             if CONF_APPLICATION_MANAGEMENT_TOKEN not in entry.data
             else None,

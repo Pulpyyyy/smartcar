@@ -37,6 +37,7 @@ from custom_components.smartcar.coordinator import (
 )
 from custom_components.smartcar.entity import SmartcarEntity
 from custom_components.smartcar.sensor import SmartcarSensorDescription
+from custom_components.smartcar.types import APIVersion
 
 from . import setup_added_integration, setup_integration
 
@@ -627,7 +628,7 @@ async def test_restore_sensor_save_state(
 
     await setup_integration(hass, mock_config_entry)
 
-    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["vin"]]
+    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["id"]]
     coordinator.data = coordinator_data
 
     await async_mock_restore_state_shutdown_restart(hass)  # trigger saving state
@@ -680,7 +681,7 @@ async def test_restore_state(
 
     await setup_added_integration(hass, mock_config_entry)
 
-    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["vin"]]
+    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["id"]]
     state = hass.states.get(entity_id)
     assert state
     assert state.state == sensor_state
@@ -787,7 +788,7 @@ async def test_restore_state_from_v2(
 
     await setup_added_integration(hass, mock_config_entry)
 
-    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["vin"]]
+    coordinator = mock_config_entry.runtime_data.coordinators[vehicle_attributes["id"]]
 
     coordinator_data = {
         key: data
@@ -814,7 +815,9 @@ async def test_async_update_internals(
 
     @dataclass(kw_only=True)
     class MockCoordinator:
+        vehicle_id: str | None = None
         vin: str | None = None
+        version: APIVersion | None = None
 
     @dataclass(kw_only=True)
     class MockEntityDescription:

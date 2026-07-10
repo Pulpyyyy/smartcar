@@ -4315,7 +4315,7 @@
     'identifiers': set({
       tuple(
         'smartcar',
-        'VIWP1AB29P15LA85784N',
+        'a1d50709-3502-4faa-ba43-a5c7565e6a09',
       ),
     }),
     'labels': set({
@@ -4386,7 +4386,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_battery_capacity',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_battery_capacity',
       'unit_of_measurement': <UnitOfEnergy.KILO_WATT_HOUR: 'kWh'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4421,7 +4421,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_battery_level',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_battery_level',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -4454,7 +4454,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charging_state',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charging_state',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -4492,7 +4492,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_chargerate',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_chargerate',
       'unit_of_measurement': <UnitOfSpeed.KILOMETERS_PER_HOUR: 'km/h'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4530,7 +4530,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_energyadded',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_energyadded',
       'unit_of_measurement': <UnitOfEnergy.KILO_WATT_HOUR: 'kWh'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4568,7 +4568,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_timetocomplete',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_timetocomplete',
       'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4603,7 +4603,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_engine_oil',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_engine_oil',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -4638,7 +4638,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_fuel',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_fuel',
       'unit_of_measurement': <UnitOfVolume.LITERS: 'L'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4676,7 +4676,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_odometer',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_odometer',
       'unit_of_measurement': <UnitOfLength.KILOMETERS: 'km'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4714,7 +4714,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_range',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_range',
       'unit_of_measurement': <UnitOfLength.KILOMETERS: 'km'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4752,7 +4752,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_back_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_back_left',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4790,7 +4790,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_back_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_back_right',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4828,7 +4828,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_front_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_front_left',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4866,7 +4866,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_front_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_front_right',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -4899,7 +4899,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charging',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charging',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -4932,7 +4932,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -4965,7 +4965,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_plug_status',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_plug_status',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5003,7 +5003,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_limit',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_limit',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -5036,7 +5036,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_location',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_location',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5071,7 +5071,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_fuel_percent',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_fuel_percent',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -5109,7 +5109,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_fuel_range',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_fuel_range',
       'unit_of_measurement': <UnitOfLength.KILOMETERS: 'km'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -5144,7 +5144,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_low_voltage_battery_level',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_low_voltage_battery_level',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -5177,7 +5177,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5210,7 +5210,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5243,7 +5243,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5276,7 +5276,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5309,7 +5309,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_left_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_left_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5342,7 +5342,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_right_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_right_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5375,7 +5375,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_left_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_left_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5408,7 +5408,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_right_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_right_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5441,7 +5441,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_back_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_back_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5474,7 +5474,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_back_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_back_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5507,7 +5507,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_front_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_front_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5540,7 +5540,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_front_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_front_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5573,7 +5573,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_front_trunk',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_front_trunk',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5606,7 +5606,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_front_trunk_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_front_trunk_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5639,7 +5639,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_rear_trunk',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_rear_trunk',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5672,7 +5672,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_rear_trunk_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_rear_trunk_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5705,7 +5705,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_engine_cover',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_engine_cover',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5738,7 +5738,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_gear_state',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_gear_state',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5771,7 +5771,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_sunroof',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_sunroof',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5804,7 +5804,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_online',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_online',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5837,7 +5837,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_asleep',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_asleep',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5870,7 +5870,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_digital_key_paired',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_digital_key_paired',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5903,7 +5903,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_surveillance_enabled',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_surveillance_enabled',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5936,7 +5936,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_battery_heater_active',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_battery_heater_active',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -5974,7 +5974,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_voltage',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_voltage',
       'unit_of_measurement': <UnitOfElectricPotential.VOLT: 'V'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -6012,7 +6012,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_amperage',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_amperage',
       'unit_of_measurement': <UnitOfElectricCurrent.AMPERE: 'A'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -6050,7 +6050,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_wattage',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_wattage',
       'unit_of_measurement': <UnitOfPower.KILO_WATT: 'kW'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -6088,7 +6088,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_time_to_complete',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_time_to_complete',
       'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -6126,7 +6126,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_amperage_max',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_amperage_max',
       'unit_of_measurement': <UnitOfElectricCurrent.AMPERE: 'A'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -6159,7 +6159,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_fast_charger_present',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_fast_charger_present',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -6192,7 +6192,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_firmware_version',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_firmware_version',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -6225,7 +6225,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_last_webhook_received',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_last_webhook_received',
       'unit_of_measurement': None,
     }),
   ])
@@ -9793,7 +9793,7 @@
     'identifiers': set({
       tuple(
         'smartcar',
-        'VIWP1AB29P15LA85784N',
+        'a1d50709-3502-4faa-ba43-a5c7565e6a09',
       ),
     }),
     'labels': set({
@@ -9864,7 +9864,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_battery_capacity',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_battery_capacity',
       'unit_of_measurement': <UnitOfEnergy.KILO_WATT_HOUR: 'kWh'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -9899,7 +9899,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_battery_level',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_battery_level',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -9932,7 +9932,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charging_state',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charging_state',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -9970,7 +9970,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_chargerate',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_chargerate',
       'unit_of_measurement': <UnitOfSpeed.KILOMETERS_PER_HOUR: 'km/h'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10008,7 +10008,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_energyadded',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_energyadded',
       'unit_of_measurement': <UnitOfEnergy.KILO_WATT_HOUR: 'kWh'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10046,7 +10046,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_timetocomplete',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_timetocomplete',
       'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10081,7 +10081,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_engine_oil',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_engine_oil',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -10116,7 +10116,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_fuel',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_fuel',
       'unit_of_measurement': <UnitOfVolume.LITERS: 'L'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10154,7 +10154,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_odometer',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_odometer',
       'unit_of_measurement': <UnitOfLength.KILOMETERS: 'km'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10192,7 +10192,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_range',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_range',
       'unit_of_measurement': <UnitOfLength.KILOMETERS: 'km'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10230,7 +10230,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_back_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_back_left',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10268,7 +10268,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_back_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_back_right',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10306,7 +10306,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_front_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_front_left',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10344,7 +10344,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_tire_pressure_front_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_tire_pressure_front_right',
       'unit_of_measurement': <UnitOfPressure.KPA: 'kPa'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10377,7 +10377,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charging',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charging',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10410,7 +10410,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10443,7 +10443,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_plug_status',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_plug_status',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10481,7 +10481,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_limit',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_limit',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -10514,7 +10514,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_location',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_location',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10549,7 +10549,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_fuel_percent',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_fuel_percent',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -10587,7 +10587,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_fuel_range',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_fuel_range',
       'unit_of_measurement': <UnitOfLength.KILOMETERS: 'km'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -10622,7 +10622,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_low_voltage_battery_level',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_low_voltage_battery_level',
       'unit_of_measurement': '%',
     }),
     EntityRegistryEntrySnapshot({
@@ -10655,7 +10655,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10688,7 +10688,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10721,7 +10721,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10754,7 +10754,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10787,7 +10787,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_left_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_left_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10820,7 +10820,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_back_right_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_back_right_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10853,7 +10853,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_left_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_left_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10886,7 +10886,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_door_front_right_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_door_front_right_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10919,7 +10919,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_back_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_back_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10952,7 +10952,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_back_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_back_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -10985,7 +10985,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_front_left',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_front_left',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11018,7 +11018,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_window_front_right',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_window_front_right',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11051,7 +11051,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_front_trunk',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_front_trunk',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11084,7 +11084,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_front_trunk_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_front_trunk_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11117,7 +11117,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_rear_trunk',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_rear_trunk',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11150,7 +11150,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_rear_trunk_lock',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_rear_trunk_lock',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11183,7 +11183,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_engine_cover',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_engine_cover',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11216,7 +11216,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_gear_state',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_gear_state',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11249,7 +11249,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_sunroof',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_sunroof',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11282,7 +11282,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_online',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_online',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11315,7 +11315,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_asleep',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_asleep',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11348,7 +11348,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_digital_key_paired',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_digital_key_paired',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11381,7 +11381,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_surveillance_enabled',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_surveillance_enabled',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11414,7 +11414,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_battery_heater_active',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_battery_heater_active',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11452,7 +11452,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_voltage',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_voltage',
       'unit_of_measurement': <UnitOfElectricPotential.VOLT: 'V'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -11490,7 +11490,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_amperage',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_amperage',
       'unit_of_measurement': <UnitOfElectricCurrent.AMPERE: 'A'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -11528,7 +11528,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_wattage',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_wattage',
       'unit_of_measurement': <UnitOfPower.KILO_WATT: 'kW'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -11566,7 +11566,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_time_to_complete',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_time_to_complete',
       'unit_of_measurement': <UnitOfTime.MINUTES: 'min'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -11604,7 +11604,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_amperage_max',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_amperage_max',
       'unit_of_measurement': <UnitOfElectricCurrent.AMPERE: 'A'>,
     }),
     EntityRegistryEntrySnapshot({
@@ -11637,7 +11637,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_charge_fast_charger_present',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_charge_fast_charger_present',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11670,7 +11670,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_firmware_version',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_firmware_version',
       'unit_of_measurement': None,
     }),
     EntityRegistryEntrySnapshot({
@@ -11703,7 +11703,7 @@
       'suggested_object_id': None,
       'supported_features': 0,
       'translation_key': None,
-      'unique_id': 'VIWP1AB29P15LA85784N_last_webhook_received',
+      'unique_id': 'a1d50709-3502-4faa-ba43-a5c7565e6a09_last_webhook_received',
       'unit_of_measurement': None,
     }),
   ])

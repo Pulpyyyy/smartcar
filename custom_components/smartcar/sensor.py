@@ -357,7 +357,7 @@ async def async_setup_entry(  # noqa: RUF029
         entry.runtime_data.coordinators
     )
     meta_coordinator = entry.runtime_data.meta_coordinator
-    _LOGGER.debug("Setting up sensors for VINs: %s", list(coordinators.keys()))
+    _LOGGER.debug("Setting up sensors for vehicles: %s", list(coordinators.keys()))
     entities = [
         SmartcarSensor(coordinator, description)
         for coordinator in coordinators.values()
@@ -367,10 +367,20 @@ async def async_setup_entry(  # noqa: RUF029
         SmartcarMetaSensor(
             meta_coordinator,
             description,
-            {"identifiers": {(DOMAIN, vehicle_coordinator.vin)}},
+            {"identifiers": {(DOMAIN, device_id)}},
         )
         for vehicle_coordinator in coordinators.values()
         for description in META_SENSOR_TYPES
+        if (
+            vehicle_coordinator.version == "v3"
+            and (device_id := vehicle_coordinator.vehicle_id)
+        )
+        or (
+            vehicle_coordinator.version == "v2"
+            and (
+                device_id := (vehicle_coordinator.vin or vehicle_coordinator.vehicle_id)
+            )
+        )
     ]
     _LOGGER.info("Adding %s Smartcar sensor entities", len(entities))
     async_add_entities(entities)
@@ -403,10 +413,10 @@ class SmartcarMetaSensor(CoordinatorEntity[DataUpdateCoordinator], SensorEntity)
         """Initialize."""
         super().__init__(coordinator)
 
-        (_, vin) = next(iter(device_info["identifiers"]))
+        (_, device_id) = next(iter(device_info["identifiers"]))
 
         self.entity_description = description
-        self._attr_unique_id = f"{vin}_{description.key}"
+        self._attr_unique_id = f"{device_id}_{description.key}"
         self._attr_device_info = device_info
 
     @property

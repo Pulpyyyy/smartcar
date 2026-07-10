@@ -87,9 +87,20 @@ async def _send_security_command(
         )
 
     if not vin:
-        vin = next(iter(entry.runtime_data.coordinators.keys()))
+        vin = next(
+            iter(
+                coordinator.vin
+                for coordinator in entry.runtime_data.coordinators.values()
+            )
+        )
 
-    coordinator = entry.runtime_data.coordinators[vin]
+    coordinator = next(
+        iter(
+            coordinator
+            for coordinator in entry.runtime_data.coordinators.values()
+            if coordinator.vin == vin
+        )
+    )
     description = next(
         description
         for description in LOCK_ENTITY_DESCRIPTIONS

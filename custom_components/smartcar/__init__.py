@@ -28,7 +28,6 @@ from .coordinator import SmartcarVehicleCoordinator
 from .errors import (
     EmptyVehicleListError,
     InvalidAuthError,
-    MissingVINError,
     UnsupportedUserConfigurationError,
 )
 from .services import async_setup_services
@@ -63,6 +62,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         ConfigEntryError: For overlapping VIN in config entries.
     """
     implementation = await async_get_config_entry_implementation(hass, entry)
+    version = api_version_for_client_id(implementation.client_id)
     websession = async_get_clientsession(hass)
     oauth_session = OAuth2Session(hass, entry, implementation)
     auth = AsyncConfigEntryAuth(
@@ -86,29 +86,46 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     other_vins = vehicle_vins_in_use(hass, entry)
 
     for vehicle_id, details in entry.data.get("vehicles", {}).items():
-        vin = details["vin"]
+        vin = details.get("vin")
         make = details.get("make")
         model = details.get("model")
         year = details.get("year")
 
-        if vin in other_vins:
+        if vin is not None and vin in other_vins:
             msg = f"Cannot setup multiple config entries with VIN {vin}"
             raise ConfigEntryError(msg)
+
+        device_id = vehicle_id
+
+        if version == "v2" and vin:
+            device_id = vin
 
         # register device
         device_registry.async_get_or_create(
             config_entry_id=entry.entry_id,
-            identifiers={(DOMAIN, vin)},
+            identifiers={(DOMAIN, device_id)},
             manufacturer=make,
             model=f"{model} ({year})" if model and year else model,
-            name=f"{make} {model}" if make and model else f"Smartcar {vin[-4:]}",
+            name=f"{make} {model}"
+            if make and model
+            else f"Smartcar {(vin or vehicle_id)[-4:]}",
         )
-        _LOGGER.info("Registered device for VIN: %s", vin)
+        _LOGGER.info("Registered device for %s (VIN: %s)", vehicle_id, vin)
 
         # create and store coordinator
-        coordinator = SmartcarVehicleCoordinator(hass, auth, vehicle_id, vin, entry)
-        coordinators[vin] = coordinator
-        _LOGGER.debug("Coordinator created and initial data fetched for VIN: %s", vin)
+        coordinators[vehicle_id] = SmartcarVehicleCoordinator(
+            hass,
+            auth=auth,
+            vehicle_id=vehicle_id,
+            vin=vin,
+            entry=entry,
+            version=version,
+        )
+        _LOGGER.debug(
+            "Coordinator created and initial data fetched for %s (VIN: %s)",
+            vehicle_id,
+            vin,
+        )
 
     # setup platforms before doing first refresh. this gets the entity registry
     # populated with the desired entities & allows the coordinator to determine
@@ -168,7 +185,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 async def async_do_first_refresh(coordinator: SmartcarVehicleCoordinator) -> None:
     await coordinator.async_config_entry_first_refresh()
     _LOGGER.debug(
-        "Coordinator created and initial data fetched for VIN: %s", coordinator.vin
+        "Coordinator created and initial data fetched for %s (VIN: %s)",
+        coordinator.vehicle_id,
+        coordinator.vin,
     )
 
 
@@ -292,7 +311,8 @@ def vehicle_vins_in_use(
         vehicle["vin"]
         for other_entry in hass.config_entries.async_entries(DOMAIN)
         for vehicle in other_entry.data.get("vehicles", {}).values()
-        if not config_entry or other_entry.unique_id != config_entry.unique_id
+        if vehicle.get("vin")
+        and (not config_entry or other_entry.unique_id != config_entry.unique_id)
     }
 
 
@@ -390,7 +410,6 @@ async def _store_vehicle_details(
     """Fetch and store data for a single vehicle.
 
     Raises:
-        MissingVINError: If the VIN is not available.
         InvalidAuthError: If the request cannot be authorized.
         ClientResponseError: If there is a request error.
     """
@@ -423,14 +442,6 @@ async def _store_vehicle_details(
                 .get("value", None)
             )
 
-        if not vin:
-            msg = f"No VIN for vehicle {vehicle_id}"
-            raise MissingVINError(msg)
-
-        data["vehicles"][vehicle_id] = {
-            "vin": vin,
-        }
-
         if auth.version == "v2":
             _LOGGER.debug("Fetching attributes for vehicle ID: %s", vehicle_id)
             attr_resp = await auth.request_v2("get", f"vehicles/{vehicle_id}")
@@ -441,13 +452,15 @@ async def _store_vehicle_details(
         model = vehicle_info.get("model")
         year = str(vehicle_info.get("year"))
 
-        data["vehicles"][vehicle_id].update(
-            {
-                "make": make,
-                "model": model,
-                "year": year,
-            }
-        )
+        data["vehicles"][vehicle_id] = {
+            "make": make,
+            "model": model,
+            "year": year,
+        }
+
+        if vin:
+            data["vehicles"][vehicle_id]["vin"] = vin
+
     except ClientResponseError as err:
         if err.status == HTTPStatus.UNAUTHORIZED:
             msg = f"Auth error [{err.status}] during vehicle setup"

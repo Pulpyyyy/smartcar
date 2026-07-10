@@ -22,6 +22,7 @@ from custom_components.smartcar.const import (
     REQUIRED_SCOPES,
     EntityDescriptionKey,
 )
+from custom_components.smartcar.types import APIVersion
 
 from . import MOCK_API_ENDPOINT_LEGACY, setup_added_integration, setup_integration
 
@@ -36,6 +37,7 @@ async def test_standard_setup(
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     vehicle: AsyncMock,
+    client_id_version: APIVersion,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -43,7 +45,7 @@ async def test_standard_setup(
 
     await setup_integration(hass, mock_config_entry)
 
-    device_id = vehicle["vin"]
+    device_id = vehicle["vin"] if client_id_version == "v2" else vehicle["id"]
     device = device_registry.async_get_device({(DOMAIN, device_id)})
 
     assert device is not None
@@ -71,6 +73,7 @@ async def test_standard_setup_with_all_entities(
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     vehicle: AsyncMock,
+    client_id_version: APIVersion,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -78,7 +81,7 @@ async def test_standard_setup_with_all_entities(
 
     await setup_integration(hass, mock_config_entry)
 
-    device_id = vehicle["vin"]
+    device_id = vehicle["vin"] if client_id_version == "v2" else vehicle["id"]
     device = device_registry.async_get_device({(DOMAIN, device_id)})
 
     assert device is not None
@@ -145,13 +148,14 @@ async def test_limited_scopes(
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     vehicle: AsyncMock,
+    client_id_version: APIVersion,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
     """Test setup when only limited scopes are enabled."""
     await setup_integration(hass, mock_config_entry)
 
-    device_id = vehicle["vin"]
+    device_id = vehicle["vin"] if client_id_version == "v2" else vehicle["id"]
     device = device_registry.async_get_device({(DOMAIN, device_id)})
 
     assert device is not None
@@ -190,6 +194,7 @@ async def test_update_errors(
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
     vehicle: AsyncMock,
+    client_id_version: APIVersion,
     device_registry: dr.DeviceRegistry,
     entity_registry: er.EntityRegistry,
 ) -> None:
@@ -197,7 +202,7 @@ async def test_update_errors(
 
     await setup_integration(hass, mock_config_entry)
 
-    device_id = vehicle["vin"]
+    device_id = vehicle["vin"] if client_id_version == "v2" else vehicle["id"]
     device = device_registry.async_get_device({(DOMAIN, device_id)})
 
     assert device is not None

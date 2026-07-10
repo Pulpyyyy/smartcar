@@ -2,7 +2,7 @@
 # name: test_entry_diagnostics[unknown_make]
   dict({
     'data': dict({
-      'VIWP1AB29P15LA85784N': dict({
+      'a1d50709-3502-4faa-ba43-a5c7565e6a09': dict({
         'charge-chargelimits': dict({
           'values': list([
             dict({
@@ -121,13 +121,14 @@
     }),
     'metadata': dict({
     }),
+    'version': 'v2',
     'webhook_url': None,
   })
 # ---
 # name: test_entry_diagnostics[vw_id_4]
   dict({
     'data': dict({
-      'VIWP1AB29P15LA85784N': dict({
+      'a1d50709-3502-4faa-ba43-a5c7565e6a09': dict({
         'charge-chargelimits': dict({
           'values': list([
             dict({
@@ -265,13 +266,14 @@
     }),
     'metadata': dict({
     }),
+    'version': 'v2',
     'webhook_url': None,
   })
 # ---
 # name: test_entry_diagnostics_metadata[invalid_json]
   dict({
     'data': dict({
-      'VIWP1AB29P15LA85784N': None,
+      'a1d50709-3502-4faa-ba43-a5c7565e6a09': None,
     }),
     'entry': dict({
       'data': dict({
@@ -315,13 +317,14 @@
         'status': 204,
       }),
     }),
+    'version': 'v2',
     'webhook_url': 'http://10.10.10.10:8123/api/webhook/smartcar_test',
   })
 # ---
 # name: test_entry_diagnostics_metadata[location_redaction]
   dict({
     'data': dict({
-      'SADHA2A10M1610715': None,
+      'db745230-7f7c-4791-bcaa-185facf371be': None,
     }),
     'entry': dict({
       'data': dict({
@@ -894,13 +897,14 @@
         'status': 204,
       }),
     }),
+    'version': 'v2',
     'webhook_url': 'http://10.10.10.10:8123/api/webhook/smartcar_test',
   })
 # ---
 # name: test_entry_diagnostics_metadata[signature_validation_failure]
   dict({
     'data': dict({
-      'SADHA2A10M1610715': None,
+      'db745230-7f7c-4791-bcaa-185facf371be': None,
     }),
     'entry': dict({
       'data': dict({
@@ -1474,6 +1478,7 @@
         'status': 401,
       }),
     }),
+    'version': 'v2',
     'webhook_url': 'http://10.10.10.10:8123/api/webhook/smartcar_test',
   })
 # ---
