@@ -170,11 +170,12 @@ class SmartcarOAuth2FlowHandler(AbstractOAuth2FlowHandler, domain=DOMAIN):  # ty
         )
 
     def _initial_data(self) -> dict[str, Any]:
+        result: dict[str, Any] = {}
         if self.source == SOURCE_REAUTH:
-            return self._get_reauth_entry().data
+            result = self._get_reauth_entry().data
         if self.source == SOURCE_RECONFIGURE:
-            return self._get_reconfigure_entry().data
-        return {}
+            result = self._get_reconfigure_entry().data
+        return result
 
     @property
     def selected_scopes(self) -> list[Scope]:

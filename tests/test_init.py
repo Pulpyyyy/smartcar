@@ -577,6 +577,21 @@ _SNAPSHOT_ORDER = {
             "charge_fast_charger_present",
             "firmware_version",
             "last_webhook_received",
+            "is_cabin_hvac_active",
+            "diag_abs",
+            "diag_mil",
+            "diag_dtc_count",
+            "diag_dtc_list",
+            "diag_ev_battery_conditioning",
+            "diag_ev_charging",
+            "diag_ev_drive_unit",
+            "diag_ev_hv_battery",
+            "cabin_target_temperature",
+            "is_cabin_hvac_active",
+            "is_front_defroster_active",
+            "is_rear_defroster_active",
+            "is_steering_heater_active",
+            "climate",
         ]
     )
 }
