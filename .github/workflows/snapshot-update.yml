@@ -1,0 +1,28 @@
+# Temporary workflow to regenerate syrupy snapshots in CI.
+# Lives only on a scratch branch; not intended to be merged.
+name: Snapshot Update
+
+on:
+  workflow_dispatch:
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.test.txt
+      - name: Regenerate snapshots
+        run: |
+          pytest -p no:sugar --snapshot-update || true
+      - name: Upload snapshots
+        uses: actions/upload-artifact@v4
+        with:
+          name: snapshots
+          path: tests/snapshots/
