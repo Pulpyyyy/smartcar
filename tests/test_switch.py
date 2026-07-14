@@ -11,7 +11,6 @@ from homeassistant.const import (
     SERVICE_TURN_ON,
     STATE_OFF,
     STATE_ON,
-    STATE_UNKNOWN,
     Platform,
 )
 from homeassistant.core import HomeAssistant, State
@@ -162,8 +161,8 @@ def test_hvac_bool_cast() -> None:
     [
         (SERVICE_TURN_ON, 200, "success", STATE_ON, "START"),
         (SERVICE_TURN_OFF, 200, "success", STATE_OFF, "STOP"),
-        (SERVICE_TURN_ON, 409, "unreachable", STATE_UNKNOWN, "START"),
-        (SERVICE_TURN_OFF, 409, "unreachable", STATE_UNKNOWN, "STOP"),
+        (SERVICE_TURN_ON, 409, "unreachable", STATE_OFF, "START"),
+        (SERVICE_TURN_OFF, 409, "unreachable", STATE_OFF, "STOP"),
     ],
     ids=["turn_on", "turn_off", "turn_on_unreachable", "turn_off_unreachable"],
 )
@@ -184,6 +183,16 @@ async def test_climate_switch(
 
     await setup_integration(hass, mock_config_entry)
     assert len(aioclient_mock.mock_calls) == 1
+
+    # seed HVAC data (not present in the vehicle fixture) so the climate
+    # switch becomes available and starts from a known state
+    coordinator = mock_config_entry.runtime_data.coordinators[vehicle["id"]]
+    coordinator.async_set_updated_data(
+        {**(coordinator.data or {}), "hvac-iscabinhvacactive": {"value": False}}
+    )
+    await hass.async_block_till_done()
+
+    assert hass.states.get("switch.smartcar_784n_climate").state == STATE_OFF
 
     if client_id_version == "v2":
         aioclient_mock.post(
@@ -228,7 +237,7 @@ async def test_climate_switch(
     (method, url, data, _headers) = aioclient_mock.mock_calls[1]
     expected_subpath = "start" if service_action == SERVICE_TURN_ON else "stop"
 
-    assert method == "POST"
+    assert method == "post"
 
     if client_id_version == "v2":
         assert str(url).endswith(f"/vehicles/{vehicle['id']}/climate")
